@@ -4,3 +4,63 @@ output: github_document
 date: "2023-03-03"
 ---
 
+```{r packages, echo=FALSE, include=FALSE}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(readr)
+library(stringr)
+library(nycflights13)
+library(fivethirtyeight)
+```
+```{r code, echo=FALSE}
+fivethirtyeight::drinks
+countries <- c("Canada","Canada","Canada", "South Korea","South Korea","South Korea", "USA", "USA", "USA")
+alcohol_type <- c("beer", "spirit", "wine", "beer", "spirit", "wine", "beer", "spirit", "wine")
+servings <- c(240, 122, 100, 140, 16, 9, 249, 158, 84)
+
+data_alcohol <- data.frame(countries, alcohol_type, servings)
+
+dim(flights)
+head(flights)
+glimpse(flights) #Lists the variables in an object with their first few values
+glimpse(airlines)
+dim(planes)
+names(planes)
+dim(weather)
+names(weather)
+dim(airports)
+names(airports)
+glimpse(airports)
+
+dem_score <- read_csv("https://moderndive.com/data/dem_score.csv")
+guat_dem <- dem_score %>% 
+  filter(country == "Guatemala")  
+
+guat_tidy <- gather(data = guat_dem, 
+                    key = year,
+                    value = democracy_score,
+                    - country) 
+guat_tidy
+ggplot(data = guat_tidy, mapping = aes(x = year, y = democracy_score)) +
+  geom_line()
+ggplot(data = guat_tidy, mapping = aes(x = parse_number(year), y = democracy_score)) +
+  geom_line() +
+  labs(x = "year")
+
+dem_score_tidy <- gather(data = dem_score, 
+                         key = year,
+                         value = democracy_score,
+                         -country) 
+head(dem_score_tidy)
+
+life_exp_scores <- read_csv("https://moderndive.com/data/le_mess.csv")
+
+life_exp_tidy <- gather(data = life_exp_scores, 
+                        key = year,
+                        value = life_exp,
+                        -country) 
+head(life_exp_tidy)
+
+
+```
